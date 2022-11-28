@@ -11,8 +11,8 @@ public class StatusController {
 		return "OK";
 	}
 	
-	@GetMapping("/error")
+	@GetMapping("/err")
 	public String error() {
-		return "UPPPSSS, la cagaste";
+		return "skere";
 	}
 }

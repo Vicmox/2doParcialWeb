@@ -13,87 +13,82 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Producto;
 import com.example.demo.repository.ProductoRepository;
 
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/productos")
 public class ProductoController {
-	
-	@Autowired
-	ProductoRepository productoRepository;
-	
-	@GetMapping
-	public List<Producto> getProductoAll() {
 
-		return productoRepository.findAll();
-	}
-	
-	@GetMapping("/{id}")
-	public Producto getProductosbyId(@PathVariable Integer id) {
-		
-		Optional<Producto> producto = productoRepository.findById(id);
-		
-		if (producto.isPresent()) {
-			return producto.get();
-		}
-		
-		return null;
+    @Autowired
+    ProductoRepository productoRepository;
 
-	}
-	
-	@PostMapping
-	public Producto postProductos(@RequestBody Producto producto) {
-		
-		productoRepository.save(producto);
-		
-		return producto;
-		
+    @GetMapping
+    public List<Producto> getProductoAll() {
 
-	}
-	
-	
-	@PutMapping("/{id}")
-	public Producto putProductosbyId(@PathVariable Integer id, @RequestBody Producto producto) {
-		
-		Optional<Producto> productoCurrent = productoRepository.findById(id);
-		
-		if (productoCurrent.isPresent()) {
-			
-			Producto productoReturn = productoCurrent.get();
-			
-			
-			productoReturn.setDescripcion(producto.getDescripcion());
-			productoReturn.setNombre(producto.getNombre());
-			
-			
-			productoRepository.save(productoReturn);
-			
-			return productoReturn;
-		}
-		
-		return null;
+        return productoRepository.findAll();
+    }
 
-	}
-	
-	@DeleteMapping("/{id}")
-	public Producto deleteProductosbyId(@PathVariable Integer id) {
-		
-		Optional<Producto> producto = productoRepository.findById(id);
-		
-		if (producto.isPresent()) {
-			
-			Producto productoReturn = producto.get();
-			
-			productoRepository.deleteById(id);
-			
-			return productoReturn;
-		}
-		
-		return null;
+    @GetMapping("/{id}")
+    public Producto getProductosbyId(@PathVariable Integer id) {
 
-	}
-	
-	
-	
+        Optional<Producto> producto = productoRepository.findById(id);
+
+        if (producto.isPresent()) {
+            return producto.get();
+        }
+
+        return null;
+
+    }
+
+    @PostMapping
+    public Producto postProductos(@RequestBody Producto producto) {
+
+        productoRepository.save(producto);
+
+        return producto;
+
+    }
+
+    @PutMapping("/{id}")
+    public Producto putProductosbyId(@PathVariable Integer id, @RequestBody Producto producto) {
+
+        Optional<Producto> productoCurrent = productoRepository.findById(id);
+
+        if (productoCurrent.isPresent()) {
+
+            Producto productoReturn = productoCurrent.get();
+
+            productoReturn.setDescripcion(producto.getDescripcion());
+            productoReturn.setNombre(producto.getNombre());
+
+            productoRepository.save(productoReturn);
+
+            return productoReturn;
+        }
+
+        return null;
+
+    }
+
+    @DeleteMapping("/{id}")
+    public Producto deleteProductosbyId(@PathVariable Integer id) {
+
+        Optional<Producto> producto = productoRepository.findById(id);
+
+        if (producto.isPresent()) {
+
+            Producto productoReturn = producto.get();
+
+            productoRepository.deleteById(id);
+
+            return productoReturn;
+        }
+
+        return null;
+
+    }
+
 }
