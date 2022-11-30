@@ -13,17 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.demo.entities.Seleccion;
 import com.example.demo.repository.SeleccionRepository;
-
 
 @RestController
 @RequestMapping("/selecciones")
 
 public class SeleccionController {
-	
-	
+
     @Autowired
     SeleccionRepository seleccionRepository;
 
@@ -46,10 +43,16 @@ public class SeleccionController {
 
     }
 
+    @GetMapping("/grupo/{grupo}")
+    public List<Seleccion> seleccionByGrupo(@PathVariable String grupo) {
+
+        return seleccionRepository.findByGrupo(grupo);
+    }
+
     @PostMapping
     public Seleccion postSeleccion(@RequestBody Seleccion seleccion) {
 
-    	seleccionRepository.save(seleccion);
+        seleccionRepository.save(seleccion);
 
         return seleccion;
 
@@ -62,10 +65,11 @@ public class SeleccionController {
 
         if (seleccionCurrent.isPresent()) {
 
-        	Seleccion seleccionReturn = seleccionCurrent.get();
+            Seleccion seleccionReturn = seleccionCurrent.get();
 
-      
-        	seleccionReturn.setNombre(seleccion.getNombre());
+            seleccionReturn.setNombre(seleccion.getNombre());
+            seleccionReturn.setContinente(seleccionReturn.getContinente());
+            seleccionReturn.setGrupo(seleccionReturn.getGrupo());
 
             seleccionRepository.save(seleccionReturn);
 
@@ -75,6 +79,15 @@ public class SeleccionController {
         return null;
 
     }
-
+    
+    	@DeleteMapping("/{id}")
+	public Seleccion deleteSeleccion(@PathVariable Integer id ) {
+		Optional<Seleccion>seleccion=seleccionRepository.findById(id);
+		if(seleccion.isPresent()) {
+			seleccionRepository.deleteById(id);
+			return seleccion.get();
+		}
+		return null;
+	}
 
 }
